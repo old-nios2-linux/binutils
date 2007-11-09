@@ -5,6 +5,7 @@
 #xfail: "hppa*-*-*" "h8300-*-*" "i960-*-*" "ip2k-*-*" "m32r-*-*" "mcore-*-*"
 #xfail: "mn10*-*-*" "mips64*-*-linux*" "openrisc-*-*" "pj-*-*" "sparc*-*-*"
 #xfail: "xtensa-*-*"
+#xfail: "nios2-*-*"
 
 .*:     file format .*elf.*
 

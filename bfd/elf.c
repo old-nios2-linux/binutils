@@ -3286,9 +3286,14 @@ map_sections_to_segments (bfd *abfd)
       phdr_size = elf_tdata (abfd)->program_header_size;
       if (phdr_size == 0)
 	phdr_size = get_elf_backend_data (abfd)->s->sizeof_phdr;
+
+      /* NG - for standalone embedded applications we don't want the program
+         headers or ELF header in the output memory map (cf CSP) */
       if ((abfd->flags & D_PAGED) == 0
 	  || sections[0]->lma < phdr_size
-	  || sections[0]->lma % maxpagesize < phdr_size % maxpagesize)
+	  || sections[0]->lma % maxpagesize < phdr_size % maxpagesize
+	  || (elf_tdata (abfd)->elf_header[0].e_ident[EI_OSABI] 
+	      == ELFOSABI_STANDALONE))
 	phdr_in_segment = FALSE;
     }
 

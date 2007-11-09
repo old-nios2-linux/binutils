@@ -82,6 +82,7 @@ ALL_MACHINES = \
 	cpu-mips.lo \
 	cpu-mmix.lo \
 	cpu-msp430.lo \
+	cpu-nios2.lo \
 	cpu-or32.lo \
 	cpu-ns32k.lo \
 	cpu-openrisc.lo \
@@ -139,6 +140,7 @@ ALL_MACHINES_CFILES = \
 	cpu-msp430.c \
 	cpu-or32.c \
 	cpu-ns32k.c \
+	cpu-nios2.c \
 	cpu-openrisc.c \
 	cpu-pdp11.c \
 	cpu-pj.c \
@@ -241,6 +243,7 @@ BFD32_BACKENDS = \
 	elfxx-mips.lo \
 	elf32-mips.lo \
 	elf32-msp430.lo \
+	elf32-nios2.lo \
 	elf32-openrisc.lo \
 	elf32-or32.lo \
 	elf32-pj.lo \
@@ -405,6 +408,7 @@ BFD32_BACKENDS_CFILES = \
 	elfxx-mips.c \
 	elf32-mips.c \
 	elf32-msp430.c \
+	elf32-nios2.c \
 	elf32-openrisc.c \
 	elf32-or32.c \
 	elf32-pj.c \
@@ -943,6 +947,7 @@ cpu-mcore.lo: cpu-mcore.c $(INCDIR)/filenames.h
 cpu-mips.lo: cpu-mips.c $(INCDIR)/filenames.h
 cpu-mmix.lo: cpu-mmix.c $(INCDIR)/filenames.h
 cpu-msp430.lo: cpu-msp430.c $(INCDIR)/filenames.h
+cpu-nios2.lo: cpu-nios2.c $(INCDIR)/filenames.h
 cpu-or32.lo: cpu-or32.c $(INCDIR)/filenames.h
 cpu-ns32k.lo: cpu-ns32k.c $(INCDIR)/filenames.h ns32k.h
 cpu-openrisc.lo: cpu-openrisc.c $(INCDIR)/filenames.h
@@ -1250,6 +1255,10 @@ elf32-msp430.lo: elf32-msp430.c $(INCDIR)/filenames.h \
   $(INCDIR)/elf/internal.h $(INCDIR)/elf/external.h $(INCDIR)/bfdlink.h \
   $(INCDIR)/elf/msp430.h $(INCDIR)/elf/reloc-macros.h \
   elf32-target.h
+elf32-nios2.lo: elf32-nios2.c $(INCDIR)/filenames.h $(INCDIR)/bfdlink.h \
+  genlink.h elf-bfd.h $(INCDIR)/elf/common.h $(INCDIR)/elf/internal.h \
+  $(INCDIR)/elf/external.h $(INCDIR)/elf/nios2.h \
+  $(INCDIR)/elf/reloc-macros.h elf32-target.h
 elf32-openrisc.lo: elf32-openrisc.c $(INCDIR)/filenames.h \
   elf-bfd.h $(INCDIR)/elf/common.h $(INCDIR)/elf/internal.h \
   $(INCDIR)/elf/external.h $(INCDIR)/bfdlink.h $(INCDIR)/elf/openrisc.h \

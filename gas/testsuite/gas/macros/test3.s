@@ -1,3 +1,4 @@
+	.set norelax
 	.macro	m arg1 arg2
 	\arg1
 	.exitm

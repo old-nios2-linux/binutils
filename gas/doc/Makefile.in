@@ -213,6 +213,7 @@ POD2MAN = pod2man --center="GNU Development Tools" \
 man_MANS = as.1
 info_TEXINFOS = as.texinfo 
 CPU_DOCS = \
+	c-nios2.texi \
 	c-a29k.texi \
 	c-alpha.texi \
 	c-arc.texi \

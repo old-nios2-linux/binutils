@@ -182,6 +182,8 @@
 #define EM_IP2K		101	/* Ubicom IP2022 micro controller */
 #define EM_MSP430	105	/* TI msp430 micro controller */
 
+#define EM_ALTERA_NIOS2	113 /* Altera Nios II soft-core processor */
+
 /* If it is necessary to assign new unofficial EM_* values, please pick large
    random numbers (0x8523, 0xa7f2, etc.) to minimize the chances of collision
    with official or non-GNU unofficial values.

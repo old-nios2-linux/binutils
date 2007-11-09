@@ -652,9 +652,11 @@ extern bfd_boolean _bfd_sh_align_load_span
 #endif
 /* Extracted from init.c.  */
 /* Extracted from libbfd.c.  */
-bfd_boolean bfd_write_bigendian_4byte_int (bfd *, unsigned int);
+bfd_boolean
+bfd_write_bigendian_4byte_int PARAMS ((bfd *, unsigned int));
 
-unsigned int bfd_log2 (bfd_vma x);
+unsigned int
+bfd_log2 PARAMS ((bfd_vma x));
 
 /* Extracted from bfdio.c.  */
 /* Extracted from bfdwin.c.  */
@@ -673,13 +675,17 @@ extern bfd *bfd_last_cache;
     ((x)==bfd_last_cache? \
       (FILE*) (bfd_last_cache->iostream): \
        bfd_cache_lookup_worker(x))
-bfd_boolean bfd_cache_init (bfd *abfd);
+bfd_boolean
+bfd_cache_init PARAMS ((bfd *abfd));
 
-bfd_boolean bfd_cache_close (bfd *abfd);
+bfd_boolean
+bfd_cache_close PARAMS ((bfd *abfd));
 
-FILE* bfd_open_file (bfd *abfd);
+FILE*
+bfd_open_file PARAMS ((bfd *abfd));
 
-FILE *bfd_cache_lookup_worker (bfd *abfd);
+FILE *
+bfd_cache_lookup_worker PARAMS ((bfd *abfd));
 
 /* Extracted from reloc.c.  */
 #ifdef _BFD_MAKE_TABLE_bfd_reloc_code_real
@@ -1504,6 +1510,21 @@ static const char *const bfd_reloc_code_real_names[] = { "@@uninitialized@@",
   "BFD_RELOC_MSP430_16",
   "BFD_RELOC_MSP430_16_PCREL_BYTE",
   "BFD_RELOC_MSP430_16_BYTE",
+  "BFD_RELOC_NIOS2_S16",
+  "BFD_RELOC_NIOS2_U16",
+  "BFD_RELOC_NIOS2_CALL26",
+  "BFD_RELOC_NIOS2_IMM5",
+  "BFD_RELOC_NIOS2_CACHE_OPX",
+  "BFD_RELOC_NIOS2_IMM6",
+  "BFD_RELOC_NIOS2_IMM8",
+  "BFD_RELOC_NIOS2_HI16",
+  "BFD_RELOC_NIOS2_LO16",
+  "BFD_RELOC_NIOS2_HIADJ16",
+  "BFD_RELOC_NIOS2_GPREL",
+  "BFD_RELOC_NIOS2_UJMP",
+  "BFD_RELOC_NIOS2_CJMP",
+  "BFD_RELOC_NIOS2_CALLR",
+  "BFD_RELOC_NIOS2_ALIGN",
   "BFD_RELOC_IQ2000_OFFSET_16",
   "BFD_RELOC_IQ2000_OFFSET_21",
   "BFD_RELOC_IQ2000_UHI16",
@@ -1521,40 +1542,41 @@ static const char *const bfd_reloc_code_real_names[] = { "@@uninitialized@@",
 };
 #endif
 
-reloc_howto_type *bfd_default_reloc_type_lookup
-   (bfd *abfd, bfd_reloc_code_real_type  code);
+reloc_howto_type *
+bfd_default_reloc_type_lookup PARAMS ((bfd *abfd, bfd_reloc_code_real_type  code));
 
-bfd_boolean bfd_generic_relax_section
-   (bfd *abfd,
+bfd_boolean
+bfd_generic_relax_section PARAMS ((bfd *abfd,
     asection *section,
     struct bfd_link_info *,
-    bfd_boolean *);
+    bfd_boolean *));
 
-bfd_boolean bfd_generic_gc_sections
-   (bfd *, struct bfd_link_info *);
+bfd_boolean
+bfd_generic_gc_sections PARAMS ((bfd *, struct bfd_link_info *));
 
-bfd_boolean bfd_generic_merge_sections
-   (bfd *, struct bfd_link_info *);
+bfd_boolean
+bfd_generic_merge_sections PARAMS ((bfd *, struct bfd_link_info *));
 
-bfd_byte *bfd_generic_get_relocated_section_contents
-   (bfd *abfd,
+bfd_byte *
+bfd_generic_get_relocated_section_contents PARAMS ((bfd *abfd,
     struct bfd_link_info *link_info,
     struct bfd_link_order *link_order,
     bfd_byte *data,
     bfd_boolean relocatable,
-    asymbol **symbols);
+    asymbol **symbols));
 
 /* Extracted from archures.c.  */
 extern const bfd_arch_info_type bfd_default_arch_struct;
-bfd_boolean bfd_default_set_arch_mach
-   (bfd *abfd, enum bfd_architecture arch, unsigned long mach);
+bfd_boolean
+bfd_default_set_arch_mach PARAMS ((bfd *abfd, enum bfd_architecture arch, unsigned long mach));
 
-const bfd_arch_info_type *bfd_default_compatible
-   (const bfd_arch_info_type *a, const bfd_arch_info_type *b);
+const bfd_arch_info_type *
+bfd_default_compatible PARAMS ((const bfd_arch_info_type *a, const bfd_arch_info_type *b));
 
-bfd_boolean bfd_default_scan
-   (const struct bfd_arch_info *info, const char *string);
+bfd_boolean
+bfd_default_scan PARAMS ((const struct bfd_arch_info *info, const char *string));
 
 /* Extracted from elf.c.  */
-struct elf_internal_shdr *bfd_elf_find_section (bfd *abfd, char *name);
+struct elf_internal_shdr *
+bfd_elf_find_section PARAMS ((bfd *abfd, char *name));
 

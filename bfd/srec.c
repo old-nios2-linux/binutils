@@ -1009,9 +1009,14 @@ srec_write_header (abfd)
 {
   unsigned int len = strlen (abfd->filename);
 
-  /* I'll put an arbitrary 40 char limit on header size.  */
-  if (len > 40)
-    len = 40;
+  /* validate Chunk for header */
+  if (Chunk == 0)
+    Chunk = 1;
+  else if (Chunk > MAXCHUNK - 2) /* S0 has 2 address bytes */
+    Chunk = MAXCHUNK - 2;
+
+  if (len > Chunk)
+    len = Chunk;
 
   return srec_write_record (abfd, 0, (bfd_vma) 0,
 			    abfd->filename, abfd->filename + len);

@@ -18,6 +18,7 @@
 ##############################################################################
 ### WARNING: this file contains embedded tabs.  Do not run untabify on this file.
 
+
 AC_INIT(move-if-change)
 AC_PREREQ(2.13)
 AC_CANONICAL_SYSTEM
@@ -666,6 +667,10 @@ case "${target}" in
     ;;
   mips*-*-*)
     noconfigdirs="$noconfigdirs gprof ${libgcj}"
+    ;;
+  nios2-*-*)
+    skipdirs=`echo " ${skipdirs} " | sed -e 's/ gprof / /'`
+    noconfigdirs="$noconfigdirs"
     ;;
   romp-*-*)
     noconfigdirs="$noconfigdirs bfd binutils ld gas opcodes target-libgloss ${libgcj}"

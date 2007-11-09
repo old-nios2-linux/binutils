@@ -56,6 +56,10 @@ proc dump_common1 { testname } {
     return 1
 }
 
+if [istarget nios2-*-*] {
+    set CFLAGS "$CFLAGS -G0"
+}
+
 if { ![ld_compile "$CC $CFLAGS" $srcdir/$subdir/common1a.c tmpdir/common1a.o]
     || ![ld_compile "$CC $CFLAGS" $srcdir/$subdir/common1b.c tmpdir/common1b.o] } {
     unresolved $test1

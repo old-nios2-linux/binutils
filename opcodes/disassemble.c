@@ -1,5 +1,5 @@
 /* Select disassembly routine for specified architecture.
-   Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+   Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003
    Free Software Foundation, Inc.
 
 This program is free software; you can redistribute it and/or modify
@@ -72,6 +72,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #define ARCH_z8k
 #define ARCH_frv
 #define ARCH_iq2000
+#define ARCH_nios2
 #define INCLUDE_SHMEDIA
 #endif
 
@@ -374,6 +375,11 @@ disassembler (abfd)
     case bfd_arch_iq2000:
       disassemble = print_insn_iq2000;
       break;
+#endif
+#ifdef ARCH_nios2
+	case bfd_arch_nios2:
+	  disassemble = print_insn_nios2;
+	  break;
 #endif
     default:
       return 0;

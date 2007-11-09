@@ -688,4 +688,14 @@ struct bfd_elf_version_tree
      struct bfd_elf_version_expr *prev, const char *sym);
 };
 
+/* NG - There seems to be no way of getting link_info from the linker into
+ * bfd so that functions which aren't passed it can use it, and I need
+ * it so that gprel relocations work properly when generating srecs. This isn't
+ * right, but it works, and for the amount of work...*/
+#define bfd_set_link_info _bfd_set_link_info
+extern void _bfd_set_link_info (struct bfd_link_info *info);
+
+#define bfd_set_force_make_executable _bfd_set_force_make_executable
+extern void _bfd_set_force_make_executable (bfd_boolean force);
+
 #endif

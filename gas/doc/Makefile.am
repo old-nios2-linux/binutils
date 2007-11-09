@@ -24,6 +24,7 @@ asconfig.texi: $(CONFIG).texi
 	  || cp $(srcdir)/$(CONFIG).texi ./asconfig.texi
 
 CPU_DOCS = \
+	c-nios2.texi \
 	c-a29k.texi \
 	c-alpha.texi \
 	c-arc.texi \

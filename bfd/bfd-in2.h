@@ -830,37 +830,48 @@ extern void bfd_elf64_ia64_after_parse
   (int);
 
 /* Extracted from init.c.  */
-void bfd_init (void);
+void
+bfd_init PARAMS ((void));
 
 /* Extracted from opncls.c.  */
-bfd *bfd_openr (const char *filename, const char *target);
+bfd *
+bfd_openr PARAMS ((const char *filename, const char *target));
 
-bfd *bfd_fdopenr (const char *filename, const char *target, int fd);
+bfd *
+bfd_fdopenr PARAMS ((const char *filename, const char *target, int fd));
 
-bfd *bfd_openstreamr (const char *, const char *, void *);
+bfd *
+bfd_openstreamr PARAMS ((const char *, const char *, void *));
 
-bfd *bfd_openw (const char *filename, const char *target);
+bfd *
+bfd_openw PARAMS ((const char *filename, const char *target));
 
-bfd_boolean bfd_close (bfd *abfd);
+bfd_boolean
+bfd_close PARAMS ((bfd *abfd));
 
-bfd_boolean bfd_close_all_done (bfd *);
+bfd_boolean
+bfd_close_all_done PARAMS ((bfd *));
 
-bfd *bfd_create (const char *filename, bfd *templ);
+bfd *
+bfd_create PARAMS ((const char *filename, bfd *templ));
 
-bfd_boolean bfd_make_writable (bfd *abfd);
+bfd_boolean
+bfd_make_writable PARAMS ((bfd *abfd));
 
-bfd_boolean bfd_make_readable (bfd *abfd);
+bfd_boolean
+bfd_make_readable PARAMS ((bfd *abfd));
 
-unsigned long bfd_calc_gnu_debuglink_crc32
-   (unsigned long crc, const unsigned char *buf, bfd_size_type len);
+unsigned long
+bfd_calc_gnu_debuglink_crc32 PARAMS ((unsigned long crc, const unsigned char *buf, bfd_size_type len));
 
-char *bfd_follow_gnu_debuglink (bfd *abfd, const char *dir);
+char *
+bfd_follow_gnu_debuglink PARAMS ((bfd *abfd, const char *dir));
 
-struct bfd_section *bfd_create_gnu_debuglink_section
-   (bfd *abfd, const char *filename);
+struct bfd_section *
+bfd_create_gnu_debuglink_section PARAMS ((bfd *abfd, const char *filename));
 
-bfd_boolean bfd_fill_in_gnu_debuglink_section
-   (bfd *abfd, struct bfd_section *sect, const char *filename);
+bfd_boolean
+bfd_fill_in_gnu_debuglink_section PARAMS ((bfd *abfd, struct bfd_section *sect, const char *filename));
 
 /* Extracted from libbfd.c.  */
 
@@ -976,9 +987,11 @@ bfd_boolean bfd_fill_in_gnu_debuglink_section
 
 
 /* Extracted from bfdio.c.  */
-long bfd_get_mtime (bfd *abfd);
+long
+bfd_get_mtime PARAMS ((bfd *abfd));
 
-long bfd_get_size (bfd *abfd);
+long
+bfd_get_size PARAMS ((bfd *abfd));
 
 /* Extracted from bfdwin.c.  */
 /* Extracted from section.c.  */
@@ -1421,48 +1434,54 @@ extern const struct bfd_symbol * const bfd_ind_symbol;
     }                                                  \
   while (0)
 
-void bfd_section_list_clear (bfd *);
+void
+bfd_section_list_clear PARAMS ((bfd *));
 
-asection *bfd_get_section_by_name (bfd *abfd, const char *name);
+asection *
+bfd_get_section_by_name PARAMS ((bfd *abfd, const char *name));
 
-char *bfd_get_unique_section_name
-   (bfd *abfd, const char *templat, int *count);
+char *
+bfd_get_unique_section_name PARAMS ((bfd *abfd, const char *templat, int *count));
 
-asection *bfd_make_section_old_way (bfd *abfd, const char *name);
+asection *
+bfd_make_section_old_way PARAMS ((bfd *abfd, const char *name));
 
-asection *bfd_make_section_anyway (bfd *abfd, const char *name);
+asection *
+bfd_make_section_anyway PARAMS ((bfd *abfd, const char *name));
 
-asection *bfd_make_section (bfd *, const char *name);
+asection *
+bfd_make_section PARAMS ((bfd *, const char *name));
 
-bfd_boolean bfd_set_section_flags
-   (bfd *abfd, asection *sec, flagword flags);
+bfd_boolean
+bfd_set_section_flags PARAMS ((bfd *abfd, asection *sec, flagword flags));
 
-void bfd_map_over_sections
-   (bfd *abfd,
+void
+bfd_map_over_sections PARAMS ((bfd *abfd,
     void (*func) (bfd *abfd, asection *sect, void *obj),
-    void *obj);
+    void *obj));
 
-bfd_boolean bfd_set_section_size
-   (bfd *abfd, asection *sec, bfd_size_type val);
+bfd_boolean
+bfd_set_section_size PARAMS ((bfd *abfd, asection *sec, bfd_size_type val));
 
-bfd_boolean bfd_set_section_contents
-   (bfd *abfd, asection *section, const void *data,
-    file_ptr offset, bfd_size_type count);
+bfd_boolean
+bfd_set_section_contents PARAMS ((bfd *abfd, asection *section, const void *data,
+    file_ptr offset, bfd_size_type count));
 
-bfd_boolean bfd_get_section_contents
-   (bfd *abfd, asection *section, void *location, file_ptr offset,
-    bfd_size_type count);
+bfd_boolean
+bfd_get_section_contents PARAMS ((bfd *abfd, asection *section, void *location, file_ptr offset,
+    bfd_size_type count));
 
-bfd_boolean bfd_copy_private_section_data
-   (bfd *ibfd, asection *isec, bfd *obfd, asection *osec);
+bfd_boolean
+bfd_copy_private_section_data PARAMS ((bfd *ibfd, asection *isec, bfd *obfd, asection *osec));
 
 #define bfd_copy_private_section_data(ibfd, isection, obfd, osection) \
      BFD_SEND (obfd, _bfd_copy_private_section_data, \
                (ibfd, isection, obfd, osection))
-void _bfd_strip_section_from_output
-   (struct bfd_link_info *info, asection *section);
+void
+_bfd_strip_section_from_output PARAMS ((struct bfd_link_info *info, asection *section));
 
-bfd_boolean bfd_generic_discard_group (bfd *abfd, asection *group);
+bfd_boolean
+bfd_generic_discard_group PARAMS ((bfd *abfd, asection *group));
 
 /* Extracted from archures.c.  */
 enum bfd_architecture
@@ -1728,6 +1747,8 @@ enum bfd_architecture
 #define bfd_mach_msp44          44
   bfd_arch_xtensa,    /* Tensilica's Xtensa cores.  */
 #define bfd_mach_xtensa        1
+  bfd_arch_nios2,
+#define bfd_mach_nios2                    1
   bfd_arch_last
   };
 
@@ -1754,37 +1775,47 @@ typedef struct bfd_arch_info
 }
 bfd_arch_info_type;
 
-const char *bfd_printable_name (bfd *abfd);
+const char *
+bfd_printable_name PARAMS ((bfd *abfd));
 
-const bfd_arch_info_type *bfd_scan_arch (const char *string);
+const bfd_arch_info_type *
+bfd_scan_arch PARAMS ((const char *string));
 
-const char **bfd_arch_list (void);
+const char **
+bfd_arch_list PARAMS ((void));
 
-const bfd_arch_info_type *bfd_arch_get_compatible
-   (const bfd *abfd, const bfd *bbfd, bfd_boolean accept_unknowns);
+const bfd_arch_info_type *
+bfd_arch_get_compatible PARAMS ((const bfd *abfd, const bfd *bbfd, bfd_boolean accept_unknowns));
 
-void bfd_set_arch_info (bfd *abfd, const bfd_arch_info_type *arg);
+void
+bfd_set_arch_info PARAMS ((bfd *abfd, const bfd_arch_info_type *arg));
 
-enum bfd_architecture bfd_get_arch (bfd *abfd);
+enum bfd_architecture
+bfd_get_arch PARAMS ((bfd *abfd));
 
-unsigned long bfd_get_mach (bfd *abfd);
+unsigned long
+bfd_get_mach PARAMS ((bfd *abfd));
 
-unsigned int bfd_arch_bits_per_byte (bfd *abfd);
+unsigned int
+bfd_arch_bits_per_byte PARAMS ((bfd *abfd));
 
-unsigned int bfd_arch_bits_per_address (bfd *abfd);
+unsigned int
+bfd_arch_bits_per_address PARAMS ((bfd *abfd));
 
-const bfd_arch_info_type *bfd_get_arch_info (bfd *abfd);
+const bfd_arch_info_type *
+bfd_get_arch_info PARAMS ((bfd *abfd));
 
-const bfd_arch_info_type *bfd_lookup_arch
-   (enum bfd_architecture arch, unsigned long machine);
+const bfd_arch_info_type *
+bfd_lookup_arch PARAMS ((enum bfd_architecture arch, unsigned long machine));
 
-const char *bfd_printable_arch_mach
-   (enum bfd_architecture arch, unsigned long machine);
+const char *
+bfd_printable_arch_mach PARAMS ((enum bfd_architecture arch, unsigned long machine));
 
-unsigned int bfd_octets_per_byte (bfd *abfd);
+unsigned int
+bfd_octets_per_byte PARAMS ((bfd *abfd));
 
-unsigned int bfd_arch_mach_octets_per_byte
-   (enum bfd_architecture arch, unsigned long machine);
+unsigned int
+bfd_arch_mach_octets_per_byte PARAMS ((enum bfd_architecture arch, unsigned long machine));
 
 /* Extracted from reloc.c.  */
 typedef enum bfd_reloc_status
@@ -1967,7 +1998,8 @@ struct reloc_howto_struct
       }                                                 \
   }
 
-unsigned int bfd_get_reloc_size (reloc_howto_type *);
+unsigned int
+bfd_get_reloc_size PARAMS ((reloc_howto_type *));
 
 typedef struct relent_chain
 {
@@ -1976,27 +2008,27 @@ typedef struct relent_chain
 }
 arelent_chain;
 
-bfd_reloc_status_type bfd_check_overflow
-   (enum complain_overflow how,
+bfd_reloc_status_type
+bfd_check_overflow PARAMS ((enum complain_overflow how,
     unsigned int bitsize,
     unsigned int rightshift,
     unsigned int addrsize,
-    bfd_vma relocation);
+    bfd_vma relocation));
 
-bfd_reloc_status_type bfd_perform_relocation
-   (bfd *abfd,
+bfd_reloc_status_type
+bfd_perform_relocation PARAMS ((bfd *abfd,
     arelent *reloc_entry,
     void *data,
     asection *input_section,
     bfd *output_bfd,
-    char **error_message);
+    char **error_message));
 
-bfd_reloc_status_type bfd_install_relocation
-   (bfd *abfd,
+bfd_reloc_status_type
+bfd_install_relocation PARAMS ((bfd *abfd,
     arelent *reloc_entry,
     void *data, bfd_vma data_start,
     asection *input_section,
-    char **error_message);
+    char **error_message));
 
 enum bfd_reloc_code_real {
   _dummy_first_bfd_reloc_code_real,
@@ -3439,6 +3471,23 @@ This is the 5 bits of a value.  */
   BFD_RELOC_MSP430_16_PCREL_BYTE,
   BFD_RELOC_MSP430_16_BYTE,
 
+/* Relocations used by the Altera New Jersey core  */
+  BFD_RELOC_NIOS2_S16,
+  BFD_RELOC_NIOS2_U16,
+  BFD_RELOC_NIOS2_CALL26,
+  BFD_RELOC_NIOS2_IMM5,
+  BFD_RELOC_NIOS2_CACHE_OPX,
+  BFD_RELOC_NIOS2_IMM6,
+  BFD_RELOC_NIOS2_IMM8,
+  BFD_RELOC_NIOS2_HI16,
+  BFD_RELOC_NIOS2_LO16,
+  BFD_RELOC_NIOS2_HIADJ16,
+  BFD_RELOC_NIOS2_GPREL,
+  BFD_RELOC_NIOS2_UJMP,
+  BFD_RELOC_NIOS2_CJMP,
+  BFD_RELOC_NIOS2_CALLR,
+  BFD_RELOC_NIOS2_ALIGN,
+
 /* IQ2000 Relocations.  */
   BFD_RELOC_IQ2000_OFFSET_16,
   BFD_RELOC_IQ2000_OFFSET_21,
@@ -3477,10 +3526,11 @@ BFD_RELOC_XTENSA_ASM_EXPAND.  */
   BFD_RELOC_XTENSA_ASM_SIMPLIFY,
   BFD_RELOC_UNUSED };
 typedef enum bfd_reloc_code_real bfd_reloc_code_real_type;
-reloc_howto_type *bfd_reloc_type_lookup
-   (bfd *abfd, bfd_reloc_code_real_type code);
+reloc_howto_type *
+bfd_reloc_type_lookup PARAMS ((bfd *abfd, bfd_reloc_code_real_type code));
 
-const char *bfd_get_reloc_code_name (bfd_reloc_code_real_type code);
+const char *
+bfd_get_reloc_code_name PARAMS ((bfd_reloc_code_real_type code));
 
 /* Extracted from syms.c.  */
 
@@ -3611,9 +3661,11 @@ asymbol;
 #define bfd_get_symtab_upper_bound(abfd) \
      BFD_SEND (abfd, _bfd_get_symtab_upper_bound, (abfd))
 
-bfd_boolean bfd_is_local_label (bfd *abfd, asymbol *sym);
+bfd_boolean
+bfd_is_local_label PARAMS ((bfd *abfd, asymbol *sym));
 
-bfd_boolean bfd_is_local_label_name (bfd *abfd, const char *name);
+bfd_boolean
+bfd_is_local_label_name PARAMS ((bfd *abfd, const char *name));
 
 #define bfd_is_local_label_name(abfd, name) \
   BFD_SEND (abfd, _bfd_is_local_label_name, (abfd, name))
@@ -3621,27 +3673,32 @@ bfd_boolean bfd_is_local_label_name (bfd *abfd, const char *name);
 #define bfd_canonicalize_symtab(abfd, location) \
   BFD_SEND (abfd, _bfd_canonicalize_symtab, (abfd, location))
 
-bfd_boolean bfd_set_symtab
-   (bfd *abfd, asymbol **location, unsigned int count);
+bfd_boolean
+bfd_set_symtab PARAMS ((bfd *abfd, asymbol **location, unsigned int count));
 
-void bfd_print_symbol_vandf (bfd *abfd, void *file, asymbol *symbol);
+void
+bfd_print_symbol_vandf PARAMS ((bfd *abfd, void *file, asymbol *symbol));
 
 #define bfd_make_empty_symbol(abfd) \
   BFD_SEND (abfd, _bfd_make_empty_symbol, (abfd))
 
-asymbol *_bfd_generic_make_empty_symbol (bfd *);
+asymbol *
+_bfd_generic_make_empty_symbol PARAMS ((bfd *));
 
 #define bfd_make_debug_symbol(abfd,ptr,size) \
   BFD_SEND (abfd, _bfd_make_debug_symbol, (abfd, ptr, size))
 
-int bfd_decode_symclass (asymbol *symbol);
+int
+bfd_decode_symclass PARAMS ((asymbol *symbol));
 
-bfd_boolean bfd_is_undefined_symclass (int symclass);
+bfd_boolean
+bfd_is_undefined_symclass PARAMS ((int symclass));
 
-void bfd_symbol_info (asymbol *symbol, symbol_info *ret);
+void
+bfd_symbol_info PARAMS ((asymbol *symbol, symbol_info *ret));
 
-bfd_boolean bfd_copy_private_symbol_data
-   (bfd *ibfd, asymbol *isym, bfd *obfd, asymbol *osym);
+bfd_boolean
+bfd_copy_private_symbol_data PARAMS ((bfd *ibfd, asymbol *isym, bfd *obfd, asymbol *osym));
 
 #define bfd_copy_private_symbol_data(ibfd, isymbol, obfd, osymbol) \
   BFD_SEND (obfd, _bfd_copy_private_symbol_data, \
@@ -3840,57 +3897,76 @@ typedef enum bfd_error
 }
 bfd_error_type;
 
-bfd_error_type bfd_get_error (void);
+bfd_error_type
+bfd_get_error PARAMS ((void));
 
-void bfd_set_error (bfd_error_type error_tag);
+void
+bfd_set_error PARAMS ((bfd_error_type error_tag));
 
-const char *bfd_errmsg (bfd_error_type error_tag);
+const char *
+bfd_errmsg PARAMS ((bfd_error_type error_tag));
 
-void bfd_perror (const char *message);
+void
+bfd_perror PARAMS ((const char *message));
 
 typedef void (*bfd_error_handler_type) (const char *, ...);
 
-bfd_error_handler_type bfd_set_error_handler (bfd_error_handler_type);
+bfd_error_handler_type
+bfd_set_error_handler PARAMS ((bfd_error_handler_type));
 
-void bfd_set_error_program_name (const char *);
+void
+bfd_set_error_program_name PARAMS ((const char *));
 
-bfd_error_handler_type bfd_get_error_handler (void);
+bfd_error_handler_type
+bfd_get_error_handler PARAMS ((void));
 
-const char *bfd_archive_filename (bfd *);
+const char *
+bfd_archive_filename PARAMS ((bfd *));
 
-long bfd_get_reloc_upper_bound (bfd *abfd, asection *sect);
+long
+bfd_get_reloc_upper_bound PARAMS ((bfd *abfd, asection *sect));
 
-long bfd_canonicalize_reloc
-   (bfd *abfd, asection *sec, arelent **loc, asymbol **syms);
+long
+bfd_canonicalize_reloc PARAMS ((bfd *abfd, asection *sec, arelent **loc, asymbol **syms));
 
-void bfd_set_reloc
-   (bfd *abfd, asection *sec, arelent **rel, unsigned int count);
+void
+bfd_set_reloc PARAMS ((bfd *abfd, asection *sec, arelent **rel, unsigned int count));
 
-bfd_boolean bfd_set_file_flags (bfd *abfd, flagword flags);
+bfd_boolean
+bfd_set_file_flags PARAMS ((bfd *abfd, flagword flags));
 
-int bfd_get_arch_size (bfd *abfd);
+int
+bfd_get_arch_size PARAMS ((bfd *abfd));
 
-int bfd_get_sign_extend_vma (bfd *abfd);
+int
+bfd_get_sign_extend_vma PARAMS ((bfd *abfd));
 
-bfd_boolean bfd_set_start_address (bfd *abfd, bfd_vma vma);
+bfd_boolean
+bfd_set_start_address PARAMS ((bfd *abfd, bfd_vma vma));
 
-unsigned int bfd_get_gp_size (bfd *abfd);
+unsigned int
+bfd_get_gp_size PARAMS ((bfd *abfd));
 
-void bfd_set_gp_size (bfd *abfd, unsigned int i);
+void
+bfd_set_gp_size PARAMS ((bfd *abfd, unsigned int i));
 
-bfd_vma bfd_scan_vma (const char *string, const char **end, int base);
+bfd_vma
+bfd_scan_vma PARAMS ((const char *string, const char **end, int base));
 
-bfd_boolean bfd_copy_private_bfd_data (bfd *ibfd, bfd *obfd);
+bfd_boolean
+bfd_copy_private_bfd_data PARAMS ((bfd *ibfd, bfd *obfd));
 
 #define bfd_copy_private_bfd_data(ibfd, obfd) \
      BFD_SEND (obfd, _bfd_copy_private_bfd_data, \
                (ibfd, obfd))
-bfd_boolean bfd_merge_private_bfd_data (bfd *ibfd, bfd *obfd);
+bfd_boolean
+bfd_merge_private_bfd_data PARAMS ((bfd *ibfd, bfd *obfd));
 
 #define bfd_merge_private_bfd_data(ibfd, obfd) \
      BFD_SEND (obfd, _bfd_merge_private_bfd_data, \
                (ibfd, obfd))
-bfd_boolean bfd_set_private_flags (bfd *abfd, flagword flags);
+bfd_boolean
+bfd_set_private_flags PARAMS ((bfd *abfd, flagword flags));
 
 #define bfd_set_private_flags(abfd, flags) \
      BFD_SEND (abfd, _bfd_set_private_flags, (abfd, flags))
@@ -3968,7 +4044,8 @@ extern bfd_byte *bfd_get_relocated_section_contents
   (bfd *, struct bfd_link_info *, struct bfd_link_order *, bfd_byte *,
    bfd_boolean, asymbol **);
 
-bfd_boolean bfd_alt_mach_code (bfd *abfd, int alternative);
+bfd_boolean
+bfd_alt_mach_code PARAMS ((bfd *abfd, int alternative));
 
 struct bfd_preserve
 {
@@ -3982,27 +4059,34 @@ struct bfd_preserve
   struct bfd_hash_table section_htab;
 };
 
-bfd_boolean bfd_preserve_save (bfd *, struct bfd_preserve *);
+bfd_boolean
+bfd_preserve_save PARAMS ((bfd *, struct bfd_preserve *));
 
-void bfd_preserve_restore (bfd *, struct bfd_preserve *);
+void
+bfd_preserve_restore PARAMS ((bfd *, struct bfd_preserve *));
 
-void bfd_preserve_finish (bfd *, struct bfd_preserve *);
+void
+bfd_preserve_finish PARAMS ((bfd *, struct bfd_preserve *));
 
 /* Extracted from archive.c.  */
-symindex bfd_get_next_mapent
-   (bfd *abfd, symindex previous, carsym **sym);
+symindex
+bfd_get_next_mapent PARAMS ((bfd *abfd, symindex previous, carsym **sym));
 
-bfd_boolean bfd_set_archive_head (bfd *output, bfd *new_head);
+bfd_boolean
+bfd_set_archive_head PARAMS ((bfd *output, bfd *new_head));
 
-bfd *bfd_openr_next_archived_file (bfd *archive, bfd *previous);
+bfd *
+bfd_openr_next_archived_file PARAMS ((bfd *archive, bfd *previous));
 
 /* Extracted from corefile.c.  */
-const char *bfd_core_file_failing_command (bfd *abfd);
+const char *
+bfd_core_file_failing_command PARAMS ((bfd *abfd));
 
-int bfd_core_file_failing_signal (bfd *abfd);
+int
+bfd_core_file_failing_signal PARAMS ((bfd *abfd));
 
-bfd_boolean core_file_matches_executable_p
-   (bfd *core_bfd, bfd *exec_bfd);
+bfd_boolean
+core_file_matches_executable_p PARAMS ((bfd *core_bfd, bfd *exec_bfd));
 
 /* Extracted from targets.c.  */
 #define BFD_SEND(bfd, message, arglist) \
@@ -4362,35 +4446,42 @@ typedef struct bfd_target
 
 } bfd_target;
 
-bfd_boolean bfd_set_default_target (const char *name);
+bfd_boolean
+bfd_set_default_target PARAMS ((const char *name));
 
-const bfd_target *bfd_find_target (const char *target_name, bfd *abfd);
+const bfd_target *
+bfd_find_target PARAMS ((const char *target_name, bfd *abfd));
 
-const char ** bfd_target_list (void);
+const char **
+bfd_target_list PARAMS ((void));
 
-const bfd_target *bfd_search_for_target
-   (int (*search_func) (const bfd_target *, void *),
-    void *);
+const bfd_target *
+bfd_search_for_target PARAMS ((int (*search_func) (const bfd_target *, void *),
+    void *));
 
 /* Extracted from format.c.  */
-bfd_boolean bfd_check_format (bfd *abfd, bfd_format format);
+bfd_boolean
+bfd_check_format PARAMS ((bfd *abfd, bfd_format format));
 
-bfd_boolean bfd_check_format_matches
-   (bfd *abfd, bfd_format format, char ***matching);
+bfd_boolean
+bfd_check_format_matches PARAMS ((bfd *abfd, bfd_format format, char ***matching));
 
-bfd_boolean bfd_set_format (bfd *abfd, bfd_format format);
+bfd_boolean
+bfd_set_format PARAMS ((bfd *abfd, bfd_format format));
 
-const char *bfd_format_string (bfd_format format);
+const char *
+bfd_format_string PARAMS ((bfd_format format));
 
 /* Extracted from linker.c.  */
-bfd_boolean bfd_link_split_section (bfd *abfd, asection *sec);
+bfd_boolean
+bfd_link_split_section PARAMS ((bfd *abfd, asection *sec));
 
 #define bfd_link_split_section(abfd, sec) \
        BFD_SEND (abfd, _bfd_link_split_section, (abfd, sec))
 
 /* Extracted from simple.c.  */
-bfd_byte *bfd_simple_get_relocated_section_contents
-   (bfd *abfd, asection *sec, bfd_byte *outbuf, asymbol **symbol_table);
+bfd_byte *
+bfd_simple_get_relocated_section_contents PARAMS ((bfd *abfd, asection *sec, bfd_byte *outbuf, asymbol **symbol_table));
 
 #ifdef __cplusplus
 }

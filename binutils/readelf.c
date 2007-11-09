@@ -110,6 +110,8 @@
 
 #include "aout/ar.h"
 
+#include "elf/nios2.h"
+
 #include "bucomm.h"
 #include "getopt.h"
 #include "libiberty.h"
@@ -668,6 +670,7 @@ guess_is_rela (unsigned long e_machine)
     case EM_XTENSA:
     case EM_XTENSA_OLD:
     case EM_M32R:
+    case EM_ALTERA_NIOS2:
       return TRUE;
 
     case EM_MMA:
@@ -1166,6 +1169,10 @@ dump_relocations (FILE *file,
 	case EM_XTENSA:
 	  rtype = elf_xtensa_reloc_type (type);
 	  break;
+
+	case EM_ALTERA_NIOS2:
+	  rtype = elf_nios2_reloc_type (type);
+	  break;
 	}
 
       if (rtype == NULL)
@@ -1649,6 +1656,7 @@ get_machine_name (unsigned e_machine)
     case EM_IQ2000:       	return "Vitesse IQ2000";
     case EM_XTENSA_OLD:
     case EM_XTENSA:		return "Tensilica Xtensa Processor";
+    case EM_ALTERA_NIOS2:	return "Altera Nios II";
     default:
       sprintf (buff, _("<unknown>: %x"), e_machine);
       return buff;

@@ -397,6 +397,14 @@ main (int argc, char **argv)
       yyparse ();
       lex_string = NULL;
     }
+/* NG horrible hack, but it works and I haven't the time to do this properly */
+#ifdef bfd_set_link_info
+	bfd_set_link_info(&link_info);
+#endif
+#ifdef bfd_set_force_make_executable
+	bfd_set_force_make_executable(force_make_executable);
+#endif
+
 
   if (trace_file_tries)
     {

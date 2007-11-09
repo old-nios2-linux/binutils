@@ -1,3 +1,4 @@
+	.set norelax
 	.irp	param,1,2,3
 	.long	foo\param
 	.endr

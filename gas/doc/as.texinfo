@@ -238,6 +238,15 @@ gcc(1), ld(1), and the Info entries for @file{binutils} and @file{ld}.
 @c
 @c Target dependent options are listed below.  Keep the list sorted.
 @c Add an empty line for separation. 
+
+
+@ifset NIOSII
+@emph{Target Altera Nios II options:}
+   [@b{-relax-all}]
+   [@b{-relax-section}]
+   [@b{-no-relax}] 
+@end ifset
+
 @ifset A29K
 @c am29k has no machine-dependent assembler options
 @end ifset
@@ -576,6 +585,21 @@ Generate an object file even after errors.
 Standard input, or source files to assemble.
 
 @end table
+
+@ifset NIOSII
+The following options are available when @value{AS} is configured for
+an Altera Nios II processor.
+
+@table @gcctabopt
+@item -relax-all
+Replace all branch and call instructions with @code{jmp} and @code{callr} sequences
+@item -relax-section
+Replace identified out of range branches with @code{jmp} sequences (default)
+@item -no-relax
+Do not replace any branches or calls
+@end table
+@end ifset
+
 
 @ifset ARC
 The following options are available when @value{AS} is configured for
@@ -2035,6 +2059,9 @@ This means you may not nest these comments.
 @cindex line comment character
 Anything from the @dfn{line comment} character to the next newline
 is considered a comment and is ignored.  The line comment character is
+@ifset NIOSII
+@samp{#} for the Altera Nios II family;
+@end ifset
 @ifset A29K
 @samp{;} for the AMD 29K family;
 @end ifset
@@ -3876,7 +3903,7 @@ is already a multiple of 8, no change is needed.  For the tic54x, the
 first expression is the alignment request in words.
 
 For other systems, including the i386 using a.out format, and the arm and
-strongarm, it is the
+strongarm, and the Altera Nios II, it is the
 number of low-order zero bits the location counter must have after
 advancement.  For example @samp{.align 3} advances the location
 counter until it a multiple of 8.  If the location counter is already a
@@ -5864,6 +5891,9 @@ include details on any machine's instruction set.  For details on that
 subject, see the hardware manufacturer's manual.
 
 @menu
+@ifset NIOSII
+* NiosII-Dependent::            Altera Nios II Dependent Features
+@end ifset
 @ifset A29K
 * AMD29K-Dependent::            AMD 29K Dependent Features
 @end ifset
@@ -5973,6 +6003,11 @@ subject, see the hardware manufacturer's manual.
 @c major node below.  Node defaulting in makeinfo requires adjacency of
 @c node and sectioning commands; hence the repetition of @chapter BLAH
 @c in both conditional blocks.
+
+
+@ifset NIOSII
+@include c-nios2.texi
+@end ifset
 
 @ifset A29K
 @include c-a29k.texi

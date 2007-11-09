@@ -26,6 +26,7 @@
 
 @c CPUs of interest
 @c ================
+@set NIOSII
 @set A29K
 @set ALPHA
 @set ARC
