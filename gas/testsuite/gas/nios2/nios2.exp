@@ -144,7 +144,8 @@ if { [istarget nios2-*-elf] } then {
     run_dump_test "ldw"
     run_dump_test "ldh"
     run_dump_test "ldb"
-    
+
+    run_dump_test "flushda" 
      
     run_dump_test "mul"
  

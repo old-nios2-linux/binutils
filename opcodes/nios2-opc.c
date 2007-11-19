@@ -218,6 +218,7 @@ const struct nios2_opcode nios2_builtin_opcodes[] =
        {"break",        "b",            "b,E",         1,         OP_MATCH_BREAK,         OP_MASK_BREAK,                          0,				 					no_overflow },
        {"bret",         "",             "E",           0,         OP_MATCH_BRET,          OP_MASK,                                0, 									no_overflow },
        {"flushd",       "i(s)",       	"i(s)E",       2,         OP_MATCH_FLUSHD,        OP_MASK_IOP,                            0,									signed_immed16_overflow },
+       {"flushda",      "i(s)",       	"i(s)E",       2,         OP_MATCH_FLUSHDA,       OP_MASK_IOP,                            0,									signed_immed16_overflow },
        {"flushi",       "s",       		"s,E",	       1,         OP_MATCH_FLUSHI,        OP_MASK_FLUSHI,			              0,				 					no_overflow },
        {"flushp",       "",       		"E",	       0,         OP_MATCH_FLUSHP,        OP_MASK,	                              0,				 					no_overflow },
  	   {"initd",       "i(s)",       	"i(s)E",       2,         OP_MATCH_INITD,         OP_MASK_IOP,                            0,									signed_immed16_overflow },

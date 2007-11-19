@@ -1,6 +1,6 @@
 /* New Jersey-specific support for 32-bit ELF
 
-   Copyright (C) 2003
+   Copyright (C) 2005
    by Nigel Gray (ngray@altera.com).
 
 
@@ -1821,13 +1821,15 @@ nios2_elf32_relocate_section (bfd * output_bfd,
 		}
 	      else
 		{
+		  bfd_vma symbol_address = rel->r_addend + relocation;
 		  relocation = relocation + rel->r_addend - gp;
 		  rel->r_addend = 0;
 		  if ((signed) relocation < -32768
 		      || (signed) relocation > 32767)
 		    {
-		      format = _("global pointer relative offset %d at address 0x%08x out of range -32678 to 32767\n");
-		      sprintf(msgbuf, format, (signed)relocation, reloc_address); 
+		      format = _("Unable to reach %s (at 0x%08x) from the global pointer (at 0x%08x) "
+				 "because the offset (%d) is out of the allowed range, -32678 to 32767.\n" );
+		      sprintf(msgbuf, format, name, symbol_address, gp, (signed)relocation);
 		      msg = msgbuf;
 		      r = bfd_reloc_outofrange;
 		    }

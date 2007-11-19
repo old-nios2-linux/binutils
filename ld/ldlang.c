@@ -2855,10 +2855,11 @@ os_region_check (lang_output_section_statement_type *os,
 	}
       else
 	{
-	  einfo (_("%X%P: region %s is full (%B section %s)\n"),
+	  einfo (_("%X%P: region %s is full (%B section %s). Region needs to be %d bytes larger.\n"),
 		 region->name,
 		 os->bfd_section->owner,
-		 os->bfd_section->name);
+		 os->bfd_section->name,
+		 region->current - (region->origin + region->length));
 	}
       /* Reset the region pointer.  */
       region->current = region->origin;

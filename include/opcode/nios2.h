@@ -216,6 +216,7 @@ struct nios2_reg
 #define OP_MATCH_BNE            OP_BNE
 #define OP_MATCH_BR             OP_BR
 #define OP_MATCH_FLUSHD         OP_FLUSHD
+#define OP_MATCH_FLUSHDA        OP_FLUSHDA
 #define OP_MATCH_INITD          OP_INITD
 #define OP_MATCH_CALL           OP_CALL
 #define OP_MATCH_CMPEQI         OP_CMPEQI

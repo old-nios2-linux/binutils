@@ -12,6 +12,7 @@ extern const char* op_names[NUM_OP_INSTS];
 extern const char* opx_names[NUM_OPX_INSTS];
 
 /* Constants for instruction fields and ISA */
+#define AT_REGNUM 1
 #define BRETADDR_REGNUM 30
 #define BSTATUS_REG_LSB 2
 #define BSTATUS_REG_MMU_LSB 0
@@ -25,6 +26,7 @@ extern const char* opx_names[NUM_OPX_INSTS];
 #define BSTATUS_REG_REGNUM 2
 #define BSTATUS_REG_SZ 3
 #define BSTATUS_REG_MASK 0x7
+#define BT_REGNUM 25
 #define COMPARE_OP_EQ 0x0
 #define COMPARE_OP_GE 0x1
 #define COMPARE_OP_LSB 3
@@ -62,6 +64,7 @@ extern const char* opx_names[NUM_OPX_INSTS];
 #define ESTATUS_REG_REGNUM 1
 #define ESTATUS_REG_SZ 3
 #define ESTATUS_REG_MASK 0x7
+#define ET_REGNUM 24
 #define FP_REGNUM 28
 #define GP_REGNUM 26
 #define IENABLE_REG_LSB 0
@@ -170,12 +173,14 @@ extern const char* opx_names[NUM_OPX_INSTS];
 #define MMU_ADDR_IO_REGION_MSB 31
 #define MMU_ADDR_IO_REGION_SZ 3
 #define MMU_ADDR_IO_REGION_MASK 0x7
+#define MMU_ADDR_IO_REGION_VPN 0xe0000
 #define MMU_ADDR_KERNEL_MMU_REGION 0x2
 #define MMU_ADDR_KERNEL_MMU_REGION_LSB 30
 #define MMU_ADDR_KERNEL_MMU_REGION_MSB 31
 #define MMU_ADDR_KERNEL_MMU_REGION_SZ 2
 #define MMU_ADDR_KERNEL_MMU_REGION_MASK 0x3
 #define MMU_ADDR_KERNEL_REGION 0x6
+#define MMU_ADDR_KERNEL_REGION_INT 6
 #define MMU_ADDR_KERNEL_REGION_LSB 29
 #define MMU_ADDR_KERNEL_REGION_MSB 31
 #define MMU_ADDR_KERNEL_REGION_SZ 3
@@ -670,6 +675,7 @@ extern const char* opx_names[NUM_OPX_INSTS];
 #define OP_CMPNEI 24
 #define OP_CUSTOM 50
 #define OP_FLUSHD 59
+#define OP_FLUSHDA 27
 #define OP_INITD 51
 #define OP_LDB 7
 #define OP_LDBIO 39
@@ -749,6 +755,12 @@ extern const char* opx_names[NUM_OPX_INSTS];
 #define IW_PROP_RESERVED_OPX(Iw) (0)
 
 #define IW_PROP_RESERVED(Iw) (0)
+
+#define IW_PROP_SUPERVISOR_ONLY(Iw) ( \
+    (op_prop_supervisor_only[GET_IW_OP(Iw)] || \
+    (IS_OPX_INST(Iw) && opx_prop_supervisor_only[GET_IW_OPX(Iw)])))
+extern unsigned char op_prop_supervisor_only[64];
+extern unsigned char opx_prop_supervisor_only[64];
 
 #define IW_PROP_FLUSH_PIPE(Iw) ( \
   ( \
@@ -1107,9 +1119,9 @@ extern unsigned char op_prop_load_unsigned[64];
     (op_prop_load[GET_IW_OP(Iw)]))
 extern unsigned char op_prop_load[64];
 
-#define IW_PROP_LOAD_INITD_FLUSHD(Iw) ( \
-    (op_prop_load_initd_flushd[GET_IW_OP(Iw)]))
-extern unsigned char op_prop_load_initd_flushd[64];
+#define IW_PROP_LOAD_INITD_FLUSHD_FLUSHDA(Iw) ( \
+    (op_prop_load_initd_flushd_flushda[GET_IW_OP(Iw)]))
+extern unsigned char op_prop_load_initd_flushd_flushda[64];
 
 #define IW_PROP_LOAD_NON_IO(Iw) ( \
     (op_prop_load_non_io[GET_IW_OP(Iw)]))
@@ -1172,6 +1184,25 @@ extern unsigned char op_prop_mem[64];
   ) \
  \
 )
+
+#define IW_PROP_FLUSHDA(Iw) ( \
+  ( \
+    ((GET_IW_OP((Iw)) == OP_FLUSHDA)) \
+  ) \
+ \
+)
+
+#define IW_PROP_FLUSHD_FLUSHDA(Iw) ( \
+  ( \
+    ((GET_IW_OP((Iw)) == OP_FLUSHD)) || \
+    ((GET_IW_OP((Iw)) == OP_FLUSHDA)) \
+  ) \
+ \
+)
+
+#define IW_PROP_INITD_FLUSHD_FLUSHDA(Iw) ( \
+    (op_prop_initd_flushd_flushda[GET_IW_OP(Iw)]))
+extern unsigned char op_prop_initd_flushd_flushda[64];
 
 #define IW_PROP_INITI_FLUSHI(Iw) ( \
   ( \
@@ -1322,74 +1353,75 @@ typedef struct {
 #define BLT_INST_CODE 15
 #define LDW_INST_CODE 16
 #define CMPNEI_INST_CODE 17
-#define XORI_INST_CODE 18
-#define BNE_INST_CODE 19
-#define CMPEQI_INST_CODE 20
-#define LDBUIO_INST_CODE 21
-#define MULI_INST_CODE 22
-#define STBIO_INST_CODE 23
-#define BEQ_INST_CODE 24
-#define LDBIO_INST_CODE 25
-#define CMPGEUI_INST_CODE 26
-#define LDHUIO_INST_CODE 27
-#define ANDHI_INST_CODE 28
-#define STHIO_INST_CODE 29
-#define BGEU_INST_CODE 30
-#define LDHIO_INST_CODE 31
-#define CMPLTUI_INST_CODE 32
-#define CUSTOM_INST_CODE 33
-#define INITD_INST_CODE 34
-#define ORHI_INST_CODE 35
-#define STWIO_INST_CODE 36
-#define BLTU_INST_CODE 37
-#define LDWIO_INST_CODE 38
-#define FLUSHD_INST_CODE 39
-#define XORHI_INST_CODE 40
-#define ERET_INST_CODE 41
-#define ROLI_INST_CODE 42
-#define ROL_INST_CODE 43
-#define FLUSHP_INST_CODE 44
-#define RET_INST_CODE 45
-#define NOR_INST_CODE 46
-#define MULXUU_INST_CODE 47
-#define CMPGE_INST_CODE 48
-#define BRET_INST_CODE 49
-#define ROR_INST_CODE 50
-#define FLUSHI_INST_CODE 51
-#define JMP_INST_CODE 52
-#define AND_INST_CODE 53
-#define CMPLT_INST_CODE 54
-#define SLLI_INST_CODE 55
-#define SLL_INST_CODE 56
-#define OR_INST_CODE 57
-#define MULXSU_INST_CODE 58
-#define CMPNE_INST_CODE 59
-#define SRLI_INST_CODE 60
-#define SRL_INST_CODE 61
-#define NEXTPC_INST_CODE 62
-#define CALLR_INST_CODE 63
-#define XOR_INST_CODE 64
-#define MULXSS_INST_CODE 65
-#define CMPEQ_INST_CODE 66
-#define DIVU_INST_CODE 67
-#define DIV_INST_CODE 68
-#define RDCTL_INST_CODE 69
-#define MUL_INST_CODE 70
-#define CMPGEU_INST_CODE 71
-#define INITI_INST_CODE 72
-#define TRAP_INST_CODE 73
-#define WRCTL_INST_CODE 74
-#define CMPLTU_INST_CODE 75
-#define ADD_INST_CODE 76
-#define BREAK_INST_CODE 77
-#define HBREAK_INST_CODE 78
-#define SYNC_INST_CODE 79
-#define SUB_INST_CODE 80
-#define SRAI_INST_CODE 81
-#define SRA_INST_CODE 82
-#define INTR_INST_CODE 83
-#define RSV_INST_CODE 84
-#define NUM_NIOS2_INST_CODES 85
+#define FLUSHDA_INST_CODE 18
+#define XORI_INST_CODE 19
+#define BNE_INST_CODE 20
+#define CMPEQI_INST_CODE 21
+#define LDBUIO_INST_CODE 22
+#define MULI_INST_CODE 23
+#define STBIO_INST_CODE 24
+#define BEQ_INST_CODE 25
+#define LDBIO_INST_CODE 26
+#define CMPGEUI_INST_CODE 27
+#define LDHUIO_INST_CODE 28
+#define ANDHI_INST_CODE 29
+#define STHIO_INST_CODE 30
+#define BGEU_INST_CODE 31
+#define LDHIO_INST_CODE 32
+#define CMPLTUI_INST_CODE 33
+#define CUSTOM_INST_CODE 34
+#define INITD_INST_CODE 35
+#define ORHI_INST_CODE 36
+#define STWIO_INST_CODE 37
+#define BLTU_INST_CODE 38
+#define LDWIO_INST_CODE 39
+#define FLUSHD_INST_CODE 40
+#define XORHI_INST_CODE 41
+#define ERET_INST_CODE 42
+#define ROLI_INST_CODE 43
+#define ROL_INST_CODE 44
+#define FLUSHP_INST_CODE 45
+#define RET_INST_CODE 46
+#define NOR_INST_CODE 47
+#define MULXUU_INST_CODE 48
+#define CMPGE_INST_CODE 49
+#define BRET_INST_CODE 50
+#define ROR_INST_CODE 51
+#define FLUSHI_INST_CODE 52
+#define JMP_INST_CODE 53
+#define AND_INST_CODE 54
+#define CMPLT_INST_CODE 55
+#define SLLI_INST_CODE 56
+#define SLL_INST_CODE 57
+#define OR_INST_CODE 58
+#define MULXSU_INST_CODE 59
+#define CMPNE_INST_CODE 60
+#define SRLI_INST_CODE 61
+#define SRL_INST_CODE 62
+#define NEXTPC_INST_CODE 63
+#define CALLR_INST_CODE 64
+#define XOR_INST_CODE 65
+#define MULXSS_INST_CODE 66
+#define CMPEQ_INST_CODE 67
+#define DIVU_INST_CODE 68
+#define DIV_INST_CODE 69
+#define RDCTL_INST_CODE 70
+#define MUL_INST_CODE 71
+#define CMPGEU_INST_CODE 72
+#define INITI_INST_CODE 73
+#define TRAP_INST_CODE 74
+#define WRCTL_INST_CODE 75
+#define CMPLTU_INST_CODE 76
+#define ADD_INST_CODE 77
+#define BREAK_INST_CODE 78
+#define HBREAK_INST_CODE 79
+#define SYNC_INST_CODE 80
+#define SUB_INST_CODE 81
+#define SRAI_INST_CODE 82
+#define SRA_INST_CODE 83
+#define INTR_INST_CODE 84
+#define RSV_INST_CODE 85
+#define NUM_NIOS2_INST_CODES 86
 
 extern Nios2InstInfo nios2InstInfo[NUM_NIOS2_INST_CODES];
 

@@ -217,6 +217,12 @@ static void output_ubranch (void);
 static void output_cbranch (void);
 static void output_call (void);
 static void output_movia (void);
+static void output_andi (void);
+static void output_addi (void);
+static void output_ori (void);
+static void output_xori (void);
+static int can_evaluate_expr (void);
+static int get_expr_value (void);
 
 
 bfd_boolean nios2_check_overflow (valueT fixup, reloc_howto_type * howto);
@@ -965,6 +971,14 @@ md_assemble (char *op_str)
 	  else if (nios2_as_options.relax == relax_all
 		   && insn.insn_nios2_opcode->pinfo & NIOS2_INSN_CALL)
 	    output_call ();
+	  else if (insn.insn_nios2_opcode->pinfo & NIOS2_INSN_ANDI)
+	    output_andi ();
+	  else if (insn.insn_nios2_opcode->pinfo & NIOS2_INSN_ORI)
+	    output_ori ();
+	  else if (insn.insn_nios2_opcode->pinfo & NIOS2_INSN_XORI)
+	    output_xori ();
+	  else if (insn.insn_nios2_opcode->pinfo & NIOS2_INSN_ADDI)
+	    output_addi ();
 	  else if (saved_pinfo == NIOS2_INSN_MACRO_MOVIA)
 	    output_movia ();
 	  else
@@ -1118,6 +1132,123 @@ output_call ()
 
     }
 }
+
+
+static int
+can_evaluate_expr ()
+{
+  /* remove this check for null and the invalid insn "ori r9, 1234" seg faults */
+  if (!insn.insn_reloc) 
+    {
+      /* ??? Ideally we should do something other than as_fatal here as we can continue to assemble.
+             However this function (actually the output_* functions) should not have been called 
+             in the first place once an illegal instruction had been encountered */
+      as_fatal (_("Invalid instruction encountered, cannot recover. No assembly attempted."));
+    }
+
+  if (insn.insn_reloc->reloc_expression.X_op == O_constant)
+    return 1;
+
+  return 0;
+}
+
+static int
+get_expr_value ()
+{
+  int value = 0;
+  if (insn.insn_reloc->reloc_expression.X_op == O_constant)
+    value = insn.insn_reloc->reloc_expression.X_add_number;
+  return value;
+}
+
+/* output an addi - will silently convert to
+ * orhi if rA = r0 and (expr & 0xffff0000) == 0 */
+static void
+output_addi ()
+{
+  int expr_val = 0;
+  if (can_evaluate_expr ())
+    {
+      expr_val = get_expr_value ();
+      if (GET_INSN_FIELD (RRS, insn.insn_code) == 0 &&
+	  (expr_val & 0xffff) == 0 && expr_val != 0)
+	{
+
+	  /* we really want a movhi (orhi) here */
+	  insn.insn_code = (insn.insn_code & ~OP_MATCH_ADDI) | OP_MATCH_ORHI;
+	  insn.insn_reloc->reloc_expression.X_add_number =
+	    (insn.insn_reloc->reloc_expression.X_add_number >> 16) & 0xffff;
+	  insn.insn_reloc->reloc_type = BFD_RELOC_NIOS2_U16;
+	}
+    }
+
+  /* output an instruction */
+  output_insn ();
+}
+
+static void
+output_andi ()
+{
+  int expr_val = 0;
+  if (can_evaluate_expr ())
+    {
+      expr_val = get_expr_value ();
+      if (expr_val != 0 && (expr_val & 0xffff) == 0)
+	{
+	  /* we really want a movhi (orhi) here */
+	  insn.insn_code = (insn.insn_code & ~OP_MATCH_ANDI) | OP_MATCH_ANDHI;
+	  insn.insn_reloc->reloc_expression.X_add_number =
+	    (insn.insn_reloc->reloc_expression.X_add_number >> 16) & 0xffff;
+	  insn.insn_reloc->reloc_type = BFD_RELOC_NIOS2_U16;
+	}
+    }
+
+  /* output an instruction */
+  output_insn ();
+}
+
+static void
+output_ori ()
+{
+  int expr_val = 0;
+  if (can_evaluate_expr ())
+    {
+      expr_val = get_expr_value ();
+      if (expr_val != 0 && (expr_val & 0xffff) == 0)
+	{
+	  /* we really want a movhi (orhi) here */
+	  insn.insn_code = (insn.insn_code & ~OP_MATCH_ORI) | OP_MATCH_ORHI;
+	  insn.insn_reloc->reloc_expression.X_add_number =
+	    (insn.insn_reloc->reloc_expression.X_add_number >> 16) & 0xffff;
+	  insn.insn_reloc->reloc_type = BFD_RELOC_NIOS2_U16;
+	}
+    }
+
+  /* output an instruction */
+  output_insn ();
+}
+
+static void
+output_xori ()
+{
+  int expr_val = 0;
+  if (can_evaluate_expr ())
+    {
+      expr_val = get_expr_value ();
+      if (expr_val != 0 && (expr_val & 0xffff) == 0)
+	{
+	  /* we really want a movhi (orhi) here */
+	  insn.insn_code = (insn.insn_code & ~OP_MATCH_XORI) | OP_MATCH_XORHI;
+	  insn.insn_reloc->reloc_expression.X_add_number =
+	    (insn.insn_reloc->reloc_expression.X_add_number >> 16) & 0xffff;
+	  insn.insn_reloc->reloc_type = BFD_RELOC_NIOS2_U16;
+	}
+    }
+
+  /* output an instruction */
+  output_insn ();
+}
+
 
 /* output a movhi/addi pair for the movia pseudo-op */
 static void
@@ -1899,6 +2030,7 @@ nios2_consume_arg (char *argStr, const char *argType)
     {
     case 'c':
       if (strncmp (argStr, "ctl", strlen ("ctl")) != 0
+	  && strncmp (argStr, "cpuid", strlen ("cpuid")) != 0
 	  && strncmp (argStr, "status", strlen ("status")) != 0
 	  && strncmp (argStr, "estatus", strlen ("estatus")) != 0
 	  && strncmp (argStr, "bstatus", strlen ("bstatus")) != 0
@@ -1914,6 +2046,7 @@ nios2_consume_arg (char *argStr, const char *argType)
 
       /* we check to make sure we don't have a control register */
       if (strncmp (argStr, "ctl", strlen ("ctl")) == 0
+	  || strncmp (argStr, "cpuid", strlen ("cpuid")) == 0
 	  || strncmp (argStr, "status", strlen ("status")) == 0
 	  || strncmp (argStr, "estatus", strlen ("estatus")) == 0
 	  || strncmp (argStr, "bstatus", strlen ("bstatus")) == 0
@@ -2012,6 +2145,21 @@ nios2_consume_arg (char *argStr, const char *argType)
     default:
       break;
     }
+
+#if 0    
+/* ??? SPR:173865 This is actually supported by the HW but the documentation is a bit funny. 
+   The compiler really want the extra register, so let it have it! */
+  /* checks for jmp 31 */
+  /* TODO: move test that insn is jmp to somewhere better.*/
+  if ((strncmp (insn.insn_nios2_opcode->name, "jmp", strlen ("jmp")) == 0) 
+      && (regno == 31
+	  || strncmp (argStr, "ra", strlen ("ra")) == 0))
+    {
+      as_bad (_("It is illegal to jump to the address contained in register ra (r31). "
+		"To return from subroutines called by call or callr, use ret instead of jmp."));
+    }
+#endif
+
   return argStr;
 }
 
