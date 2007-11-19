@@ -1722,19 +1722,27 @@ copy_file (const char *input_filename, const char *output_filename,
          * entirely: flash2dat and friends should just read the elf file
          * directly.
          */
+        char *new_filename = NULL;
         const char *orig_filename = obfd->filename;
         int result;
 
         if (!strcmp (ibfd->xvec->name, "elf32-bignios2"))
         {
-          obfd->filename = "-EB";
+          new_filename = strdup("-EB");
         }
         else
         {
-          obfd->filename = "-EL";
+          new_filename = strdup("-EL");
         }
+        obfd->filename = new_filename;
+
         result = bfd_close (obfd);
+        
+        if ( obfd != NULL && new_filename == obfd->filename )
+          {
+            free(new_filename);
         obfd->filename = orig_filename;
+          }
 
         if (!result)
           RETURN_NONFATAL (output_filename);

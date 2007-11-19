@@ -2080,7 +2080,11 @@ nios2_consume_arg (char *argStr, const char *argType)
 	  && strncmp (argStr, "estatus", strlen ("estatus")) != 0
 	  && strncmp (argStr, "bstatus", strlen ("bstatus")) != 0
 	  && strncmp (argStr, "ienable", strlen ("ienable")) != 0
-	  && strncmp (argStr, "ipending", strlen ("ipending")) != 0)
+	  && strncmp (argStr, "ipending", strlen ("ipending")) != 0
+	  && strncmp (argStr, "pteaddr", strlen ("pteaddr")) != 0
+	  && strncmp (argStr, "tlbacc", strlen ("tlbacc")) != 0
+	  && strncmp (argStr, "tlbmisc", strlen ("tlbmisc")) != 0
+	  && strncmp (argStr, "fstatus", strlen ("fstatus")) != 0)
 	{
 	  as_bad (_("expecting control register"));
 	}
@@ -2096,7 +2100,11 @@ nios2_consume_arg (char *argStr, const char *argType)
 	  || strncmp (argStr, "estatus", strlen ("estatus")) == 0
 	  || strncmp (argStr, "bstatus", strlen ("bstatus")) == 0
 	  || strncmp (argStr, "ienable", strlen ("ienable")) == 0
-	  || strncmp (argStr, "ipending", strlen ("ipending")) == 0)
+	  || strncmp (argStr, "ipending", strlen ("ipending")) == 0
+	  || strncmp (argStr, "pteaddr", strlen ("pteaddr")) == 0
+	  || strncmp (argStr, "tlbacc", strlen ("tlbacc")) == 0
+	  || strncmp (argStr, "tlbmisc", strlen ("tlbmisc")) == 0
+	  || strncmp (argStr, "fstatus", strlen ("fstatus")) == 0)
 	{
 	  as_bad (_("illegal use of control register"));
 	}
