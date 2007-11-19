@@ -143,7 +143,8 @@ changequote([,])dnl
       m8*)		cpu_type=m88k ;;
       mips*el)		cpu_type=mips endian=little ;;
       mips*)		cpu_type=mips endian=big ;;
-      nios2*|nios2*)		cpu_type=nios2 ;;
+      nios2eb)          cpu_type=nios2 endian=big ;;
+      nios2el|nios2)    cpu_type=nios2 endian=little ;;
       or32*)		cpu_type=or32 endian=big ;;
       pjl*)		cpu_type=pj endian=little ;;
       pj*)		cpu_type=pj endian=big ;;
@@ -401,7 +402,7 @@ changequote([,])dnl
       mn10200-*-*)			fmt=elf ;;
       mn10300-*-*)			fmt=elf ;;
       msp430-*-*)			fmt=elf ;;
-      nios2-*-*)			fmt=elf ;;
+      nios2*-*-*)			fmt=elf ;;
       openrisc-*-*)			fmt=elf ;;
       or32-*-rtems*)			fmt=elf ;;
       or32-*-coff)			fmt=coff ;;
@@ -541,7 +542,7 @@ changequote([,])dnl
     fi
 
     case ${cpu_type}-${fmt} in
-	alpha*-* | arm-* | i386-* | ia64*-* | mips-* | nios2-* | ns32k-* \
+	alpha*-* | arm-* | i386-* | ia64*-* | mips-* | nios2*-* | ns32k-* \
 		| pdp11-* | ppc-* | sparc-* | strongarm-* | xscale-* \
 		| *-elf | *-ecoff | *-som)
 	    bfd_gas=yes ;;

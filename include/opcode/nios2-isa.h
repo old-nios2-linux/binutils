@@ -46,6 +46,7 @@ extern const char* opx_names[NUM_OPX_INSTS];
 #define DATAPATH_MSB 31
 #define DATAPATH_SZ 32
 #define DATAPATH_MASK 0xffffffff
+#define EMPTY_CRST_IW 127034
 #define EMPTY_HBREAK_IW 4040762
 #define EMPTY_INTR_IW 3926074
 #define EMPTY_NOP_IW 100410
@@ -65,6 +66,19 @@ extern const char* opx_names[NUM_OPX_INSTS];
 #define ESTATUS_REG_SZ 3
 #define ESTATUS_REG_MASK 0x7
 #define ET_REGNUM 24
+#define EXCEPTION_REG_LSB 0
+#define EXCEPTION_REG_MEA_LSB 0
+#define EXCEPTION_REG_MEA_MSB 0
+#define EXCEPTION_REG_MEA_SZ 1
+#define EXCEPTION_REG_MEA_MASK 0x1
+#define EXCEPTION_REG_MEE_LSB 1
+#define EXCEPTION_REG_MEE_MSB 1
+#define EXCEPTION_REG_MEE_SZ 1
+#define EXCEPTION_REG_MEE_MASK 0x1
+#define EXCEPTION_REG_MSB 1
+#define EXCEPTION_REG_REGNUM 7
+#define EXCEPTION_REG_SZ 2
+#define EXCEPTION_REG_MASK 0x3
 #define FP_REGNUM 28
 #define GP_REGNUM 26
 #define IENABLE_REG_LSB 0
@@ -202,19 +216,6 @@ extern const char* opx_names[NUM_OPX_INSTS];
 #define MMU_ADDR_VPN_MSB 31
 #define MMU_ADDR_VPN_SZ 20
 #define MMU_ADDR_VPN_MASK 0xfffff
-#define PERF_CNT_REG_CLR_LSB 1
-#define PERF_CNT_REG_CLR_MSB 1
-#define PERF_CNT_REG_CLR_SZ 1
-#define PERF_CNT_REG_CLR_MASK 0x1
-#define PERF_CNT_REG_EN_LSB 0
-#define PERF_CNT_REG_EN_MSB 0
-#define PERF_CNT_REG_EN_SZ 1
-#define PERF_CNT_REG_EN_MASK 0x1
-#define PERF_CNT_REG_LSB 0
-#define PERF_CNT_REG_MSB 1
-#define PERF_CNT_REG_REGNUM 7
-#define PERF_CNT_REG_SZ 2
-#define PERF_CNT_REG_MASK 0x3
 #define PTEADDR_REG_LSB 0
 #define PTEADDR_REG_MSB 31
 #define PTEADDR_REG_PTBASE_LSB 22
@@ -240,17 +241,25 @@ extern const char* opx_names[NUM_OPX_INSTS];
 #define RF_NUM_REG 32
 #define SIM_REG_LSB 0
 #define SIM_REG_MSB 3
+#define SIM_REG_PERF_CNT_CLR_LSB 2
+#define SIM_REG_PERF_CNT_CLR_MSB 2
+#define SIM_REG_PERF_CNT_CLR_SZ 1
+#define SIM_REG_PERF_CNT_CLR_MASK 0x1
+#define SIM_REG_PERF_CNT_EN_LSB 1
+#define SIM_REG_PERF_CNT_EN_MSB 1
+#define SIM_REG_PERF_CNT_EN_SZ 1
+#define SIM_REG_PERF_CNT_EN_MASK 0x1
 #define SIM_REG_REGNUM 6
-#define SIM_REG_SHOW_DTLB_LSB 2
-#define SIM_REG_SHOW_DTLB_MSB 2
+#define SIM_REG_SHOW_DTLB_LSB 4
+#define SIM_REG_SHOW_DTLB_MSB 4
 #define SIM_REG_SHOW_DTLB_SZ 1
 #define SIM_REG_SHOW_DTLB_MASK 0x1
-#define SIM_REG_SHOW_ITLB_LSB 1
-#define SIM_REG_SHOW_ITLB_MSB 1
+#define SIM_REG_SHOW_ITLB_LSB 3
+#define SIM_REG_SHOW_ITLB_MSB 3
 #define SIM_REG_SHOW_ITLB_SZ 1
 #define SIM_REG_SHOW_ITLB_MASK 0x1
-#define SIM_REG_SHOW_MMU_REGS_LSB 3
-#define SIM_REG_SHOW_MMU_REGS_MSB 3
+#define SIM_REG_SHOW_MMU_REGS_LSB 5
+#define SIM_REG_SHOW_MMU_REGS_MSB 5
 #define SIM_REG_SHOW_MMU_REGS_SZ 1
 #define SIM_REG_SHOW_MMU_REGS_MASK 0x1
 #define SIM_REG_STOP_LSB 0
@@ -462,16 +471,16 @@ extern const char* opx_names[NUM_OPX_INSTS];
 #define SET_ESTATUS_REG_NO_MMU(Reg, Val) \
     Reg = (((Reg) & (~(ESTATUS_REG_NO_MMU_MASK << ESTATUS_REG_NO_MMU_LSB))) | \
          (((Val) & ESTATUS_REG_NO_MMU_MASK) << ESTATUS_REG_NO_MMU_LSB))
-#define GET_PERF_CNT_REG_CLR(Reg) \
-    (((Reg) >> PERF_CNT_REG_CLR_LSB) & PERF_CNT_REG_CLR_MASK)
-#define SET_PERF_CNT_REG_CLR(Reg, Val) \
-    Reg = (((Reg) & (~(PERF_CNT_REG_CLR_MASK << PERF_CNT_REG_CLR_LSB))) | \
-         (((Val) & PERF_CNT_REG_CLR_MASK) << PERF_CNT_REG_CLR_LSB))
-#define GET_PERF_CNT_REG_EN(Reg) \
-    (((Reg) >> PERF_CNT_REG_EN_LSB) & PERF_CNT_REG_EN_MASK)
-#define SET_PERF_CNT_REG_EN(Reg, Val) \
-    Reg = (((Reg) & (~(PERF_CNT_REG_EN_MASK << PERF_CNT_REG_EN_LSB))) | \
-         (((Val) & PERF_CNT_REG_EN_MASK) << PERF_CNT_REG_EN_LSB))
+#define GET_EXCEPTION_REG_MEA(Reg) \
+    (((Reg) >> EXCEPTION_REG_MEA_LSB) & EXCEPTION_REG_MEA_MASK)
+#define SET_EXCEPTION_REG_MEA(Reg, Val) \
+    Reg = (((Reg) & (~(EXCEPTION_REG_MEA_MASK << EXCEPTION_REG_MEA_LSB))) | \
+         (((Val) & EXCEPTION_REG_MEA_MASK) << EXCEPTION_REG_MEA_LSB))
+#define GET_EXCEPTION_REG_MEE(Reg) \
+    (((Reg) >> EXCEPTION_REG_MEE_LSB) & EXCEPTION_REG_MEE_MASK)
+#define SET_EXCEPTION_REG_MEE(Reg, Val) \
+    Reg = (((Reg) & (~(EXCEPTION_REG_MEE_MASK << EXCEPTION_REG_MEE_LSB))) | \
+         (((Val) & EXCEPTION_REG_MEE_MASK) << EXCEPTION_REG_MEE_LSB))
 #define GET_PTEADDR_REG_PTBASE(Reg) \
     (((Reg) >> PTEADDR_REG_PTBASE_LSB) & PTEADDR_REG_PTBASE_MASK)
 #define SET_PTEADDR_REG_PTBASE(Reg, Val) \
@@ -487,6 +496,16 @@ extern const char* opx_names[NUM_OPX_INSTS];
 #define SET_PTEADDR_REG_VPN(Reg, Val) \
     Reg = (((Reg) & (~(PTEADDR_REG_VPN_MASK << PTEADDR_REG_VPN_LSB))) | \
          (((Val) & PTEADDR_REG_VPN_MASK) << PTEADDR_REG_VPN_LSB))
+#define GET_SIM_REG_PERF_CNT_CLR(Reg) \
+    (((Reg) >> SIM_REG_PERF_CNT_CLR_LSB) & SIM_REG_PERF_CNT_CLR_MASK)
+#define SET_SIM_REG_PERF_CNT_CLR(Reg, Val) \
+    Reg = (((Reg) & (~(SIM_REG_PERF_CNT_CLR_MASK << SIM_REG_PERF_CNT_CLR_LSB))) | \
+         (((Val) & SIM_REG_PERF_CNT_CLR_MASK) << SIM_REG_PERF_CNT_CLR_LSB))
+#define GET_SIM_REG_PERF_CNT_EN(Reg) \
+    (((Reg) >> SIM_REG_PERF_CNT_EN_LSB) & SIM_REG_PERF_CNT_EN_MASK)
+#define SET_SIM_REG_PERF_CNT_EN(Reg, Val) \
+    Reg = (((Reg) & (~(SIM_REG_PERF_CNT_EN_MASK << SIM_REG_PERF_CNT_EN_LSB))) | \
+         (((Val) & SIM_REG_PERF_CNT_EN_MASK) << SIM_REG_PERF_CNT_EN_LSB))
 #define GET_SIM_REG_SHOW_DTLB(Reg) \
     (((Reg) >> SIM_REG_SHOW_DTLB_LSB) & SIM_REG_SHOW_DTLB_MASK)
 #define SET_SIM_REG_SHOW_DTLB(Reg, Val) \
@@ -712,6 +731,7 @@ extern const char* opx_names[NUM_OPX_INSTS];
 #define OPX_CMPLT 16
 #define OPX_CMPLTU 48
 #define OPX_CMPNE 24
+#define OPX_CRST 62
 #define OPX_DIV 37
 #define OPX_DIVU 36
 #define OPX_ERET 1
@@ -762,13 +782,17 @@ extern const char* opx_names[NUM_OPX_INSTS];
 extern unsigned char op_prop_supervisor_only[64];
 extern unsigned char opx_prop_supervisor_only[64];
 
-#define IW_PROP_FLUSH_PIPE(Iw) ( \
+#define IW_PROP_INITI_FLUSHI(Iw) ( \
   ( \
-    ((GET_IW_OPX((Iw)) == OPX_FLUSHP) && IS_OPX_INST(Iw)) || \
-    ((GET_IW_OPX((Iw)) == OPX_BRET) && IS_OPX_INST(Iw)) \
+    ((GET_IW_OPX((Iw)) == OPX_INITI) && IS_OPX_INST(Iw)) || \
+    ((GET_IW_OPX((Iw)) == OPX_FLUSHI) && IS_OPX_INST(Iw)) \
   ) \
  \
 )
+
+#define IW_PROP_FLUSH_PIPE(Iw) ( \
+    (IS_OPX_INST(Iw) && opx_prop_flush_pipe[GET_IW_OPX(Iw)]))
+extern unsigned char opx_prop_flush_pipe[64];
 
 #define IW_PROP_JMP_INDIRECT_NON_TRAP(Iw) ( \
     (IS_OPX_INST(Iw) && opx_prop_jmp_indirect_non_trap[GET_IW_OPX(Iw)]))
@@ -848,6 +872,13 @@ extern unsigned char opx_prop_mul[64];
   ( \
     ((GET_IW_OPX((Iw)) == OPX_BREAK) && IS_OPX_INST(Iw)) || \
     ((GET_IW_OPX((Iw)) == OPX_HBREAK) && IS_OPX_INST(Iw)) \
+  ) \
+ \
+)
+
+#define IW_PROP_CRST(Iw) ( \
+  ( \
+    ((GET_IW_OPX((Iw)) == OPX_CRST) && IS_OPX_INST(Iw)) \
   ) \
  \
 )
@@ -1204,14 +1235,6 @@ extern unsigned char op_prop_mem[64];
     (op_prop_initd_flushd_flushda[GET_IW_OP(Iw)]))
 extern unsigned char op_prop_initd_flushd_flushda[64];
 
-#define IW_PROP_INITI_FLUSHI(Iw) ( \
-  ( \
-    ((GET_IW_OPX((Iw)) == OPX_INITI) && IS_OPX_INST(Iw)) || \
-    ((GET_IW_OPX((Iw)) == OPX_FLUSHI) && IS_OPX_INST(Iw)) \
-  ) \
- \
-)
-
 #define IW_PROP_LOAD_IO(Iw) ( \
     (op_prop_load_io[GET_IW_OP(Iw)]))
 extern unsigned char op_prop_load_io[64];
@@ -1420,8 +1443,9 @@ typedef struct {
 #define SRAI_INST_CODE 82
 #define SRA_INST_CODE 83
 #define INTR_INST_CODE 84
-#define RSV_INST_CODE 85
-#define NUM_NIOS2_INST_CODES 86
+#define CRST_INST_CODE 85
+#define RSV_INST_CODE 86
+#define NUM_NIOS2_INST_CODES 87
 
 extern Nios2InstInfo nios2InstInfo[NUM_NIOS2_INST_CODES];
 

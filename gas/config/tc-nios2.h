@@ -23,11 +23,18 @@
 #ifndef TC_NIOS2
 #define TC_NIOS2
 
-
+/*
+ * If unspecified, default to little endian.  We can explicitly specify
+ * a big-endian default by configuring with --target=nios2eb-elf.  We
+ * can override the default with the -EB and -EL options.
+ */
+#ifndef TARGET_BYTES_BIG_ENDIAN
 #define TARGET_BYTES_BIG_ENDIAN 0
+#endif
 
 #ifdef OBJ_ELF
-#define TARGET_FORMAT  "elf32-littlenios2"
+extern const char *nios2_target_format (void);
+#define TARGET_FORMAT  nios2_target_format ()
 #define TARGET_ARCH    bfd_arch_nios2
 #endif
 

@@ -1705,8 +1705,45 @@ copy_file (const char *input_filename, const char *output_filename,
 
       delete = ! copy_object (ibfd, obfd);
 
+      if (!strcmp (obfd->xvec->name, "srec")
+          && (!strcmp (ibfd->xvec->name, "elf32-bignios2")
+              || !strcmp (ibfd->xvec->name, "elf32-littlenios2")))
+      {
+        /*
+         * We're copying a big-endian or little-endian elf to an srec.
+         * Tag the elf with a hardcoded S0 record so other tools know
+         * which endianness was in the original elf file.
+         *
+         * This is a hack, as srec files don't really have an
+         * endianness.  We just need a way to tell tools like
+         * flash2dat.pl which endianness was originally present.
+         *
+         * At some point in the future, we should stop using srec files
+         * entirely: flash2dat and friends should just read the elf file
+         * directly.
+         */
+        const char *orig_filename = obfd->filename;
+        int result;
+
+        if (!strcmp (ibfd->xvec->name, "elf32-bignios2"))
+        {
+          obfd->filename = "-EB";
+        }
+        else
+        {
+          obfd->filename = "-EL";
+        }
+        result = bfd_close (obfd);
+        obfd->filename = orig_filename;
+
+        if (!result)
+          RETURN_NONFATAL (output_filename);
+      }
+      else
+      {
       if (!bfd_close (obfd))
 	RETURN_NONFATAL (output_filename);
+      }
 
       if (!bfd_close (ibfd))
 	RETURN_NONFATAL (input_filename);

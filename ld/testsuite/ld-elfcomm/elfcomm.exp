@@ -56,7 +56,7 @@ proc dump_common1 { testname } {
     return 1
 }
 
-if [istarget nios2-*-*] {
+if [istarget nios2*-*-*] {
     set CFLAGS "$CFLAGS -G0"
 }
 

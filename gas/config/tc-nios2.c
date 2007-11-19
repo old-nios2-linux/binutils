@@ -35,6 +35,9 @@
 #include "subsegs.h"
 #include "safe-ctype.h"
 
+/* We can choose our endianness at run-time, regardless of configuration */
+extern int target_big_endian;
+
 #ifndef OBJ_ELF
 	/* we are not supporting any other target
 	   so we throw a compile time error */
@@ -319,7 +322,11 @@ struct option md_longopts[] = {
 #define OPTION_NORELAX (OPTION_MD_BASE + 1)
   {"no-relax", no_argument, NULL, OPTION_NORELAX},
 #define OPTION_RELAX_SECTION (OPTION_MD_BASE + 2)
-  {"relax-section", no_argument, NULL, OPTION_RELAX_SECTION}
+  {"relax-section", no_argument, NULL, OPTION_RELAX_SECTION},
+#define OPTION_EB (OPTION_MD_BASE + 3)
+  {"EB", no_argument, NULL, OPTION_EB},
+#define OPTION_EL (OPTION_MD_BASE + 4)
+  {"EL", no_argument, NULL, OPTION_EL}
 };
 
 size_t md_longopts_size = sizeof (md_longopts);
@@ -767,12 +774,28 @@ md_parse_option (int c, char *arg ATTRIBUTE_UNUSED)
     case OPTION_RELAX_SECTION:
       nios2_as_options.relax = relax_section;
       break;
+    case OPTION_EB:
+      target_big_endian = 1;
+      break;
+    case OPTION_EL:
+      target_big_endian = 0;
+      break;
     default:
       return 0;
       break;
     }
 
   return 1;
+}
+
+/*
+ * We can choose to be big-endian or little-endian at runtime based
+ * on a switch.
+ */
+const char *
+nios2_target_format (void)
+{
+  return target_big_endian ? "elf32-bignios2" : "elf32-littlenios2";
 }
 
 /*
@@ -787,7 +810,9 @@ md_show_usage (FILE * stream)
 	NIOS2 options:\n\
   -relax-all		replace all branch and call instructions with jmp and callr sequences\n\
   -relax-section	replace identified out of range branches with jmp sequences (default)\n\
-  -no-relax			do not replace any branches or calls\n");
+  -no-relax             do not replace any branches or calls\n\
+  -EB                   force big-endian byte ordering\n\
+  -EL                   force little-endian byte ordering\n");
 }
 
 /*
@@ -1285,23 +1310,32 @@ output_movia ()
 
 /*
 	Function md_chars_to_number takes the sequence of
-	bytes in bug and returns the corresponding value
+	bytes in buf and returns the corresponding value
 	in an int. n must be 1, 2 or 4.
  */
 valueT
 md_chars_to_number (char *buf, int n)
 {
-  // this assumes little endian format
   int i;
   valueT val;
 
   assert (n == 1 || n == 2 || n == 4);
 
   val = 0;
+  if (target_big_endian)
+  {
+    for (i = 0; i < n; ++i)
+      {
+        val = val | ((buf[i] & 0xff) << 8 * (n - (i + 1)));
+      }
+  }
+  else
+  {
   for (i = 0; i < n; ++i)
     {
       val = val | ((buf[i] & 0xff) << 8 * i);
     }
+  }
   return val;
 }
 
@@ -1316,13 +1350,14 @@ md_chars_to_number (char *buf, int n)
 void
 md_number_to_chars (char *buf, valueT val, int n)
 {
-  /* this assumes little endian format */
-  int i;
   assert (n == 1 || n == 2 || n == 4);
-  for (i = 0; i < n; ++i)
+  if (target_big_endian)
     {
-      buf[i] = val & 0xFF;
-      val >>= 8;
+      number_to_chars_bigendian (buf, val, n);
+    }
+  else
+    {
+      number_to_chars_littleendian (buf, val, n);
     }
 }
 
@@ -1398,11 +1433,21 @@ md_atof (int type, char *litP, int *sizeP)
 
   *sizeP = prec * 2;
 
-  /* little endian target */
+  if (! target_big_endian)
+    {
   for (i = prec - 1; i >= 0; i--)
     {
       md_number_to_chars (litP, (valueT) words[i], 2);
       litP += 2;
+    }
+    }
+  else
+    {
+      for (i = 0; i < prec; i++)
+	{
+	  md_number_to_chars (litP, (valueT) words[i], 2);
+	  litP += 2;
+	}
     }
 
   return NULL;

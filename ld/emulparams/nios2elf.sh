@@ -1,5 +1,7 @@
 SCRIPT_NAME=elf
 OUTPUT_FORMAT="elf32-littlenios2"
+LITTLE_OUTPUT_FORMAT="elf32-littlenios2"
+BIG_OUTPUT_FORMAT="elf32-bignios2"
 TEXT_START_ADDR=0x0
 OTHER_GOT_SYMBOLS='
   _gp = ALIGN(16) + 0x7ff0;
