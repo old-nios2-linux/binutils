@@ -1837,7 +1837,7 @@ md_apply_fix3 (fixS * fixP, valueT * valP, segT seg ATTRIBUTE_UNUSED)
 
 
 	  /* apply the rightshift */
-	  (signed) fixup >>= howto->rightshift;
+	  fixup >>= howto->rightshift;
 
 	  /* truncate the fixup to right size */
 	  switch (fixP->fx_r_type)
@@ -1882,7 +1882,7 @@ bfd_boolean
 nios2_check_overflow (valueT fixup, reloc_howto_type * howto)
 {
   /* apply the rightshift before checking for overflow */
-  (signed) fixup >>= howto->rightshift;
+  fixup >>= howto->rightshift;
 
   /* check for overflow - return TRUE if overflow, FALSE if not */
   switch (howto->complain_on_overflow)
