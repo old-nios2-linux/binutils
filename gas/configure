@@ -3400,6 +3400,11 @@ linux-gnu*)
   lt_cv_file_magic_test_file=`echo /lib/libc.so* /lib/libc-*.so`
   ;;
 
+linux-uclibc*)
+  lt_cv_deplibs_check_method=pass_all
+  lt_cv_file_magic_test_file=`echo /lib/libuClibc-*.so`
+  ;;
+
 netbsd*)
   if echo __ELF__ | $CC -E - | grep __ELF__ > /dev/null; then
     lt_cv_deplibs_check_method='match_pattern /lib[^/\.]+\.so\.[0-9]+\.[0-9]+$'
@@ -4226,6 +4231,7 @@ for this_target in $target $canon_targets ; do
       alpha*-*-osf*)			fmt=ecoff ;;
       alpha*-*-linuxecoff*)		fmt=ecoff ;;
       alpha*-*-linux-gnu*)		fmt=elf em=linux ;;
+      alpha*-*-linux-uclibc*)		fmt=elf em=linux ;;
       alpha*-*-netbsd*)			fmt=elf em=nbsd ;;
       alpha*-*-openbsd*)		fmt=elf em=obsd ;;
 
@@ -4242,6 +4248,7 @@ for this_target in $target $canon_targets ; do
       arm*-*-conix*)			fmt=elf ;;
       arm-*-linux*aout*)		fmt=aout em=linux ;;
       arm*-*-linux-gnu*)		fmt=elf  em=linux ;;
+      arm*-*-linux-uclibc*)		fmt=elf  em=linux ;;
       arm*-*-uclinux*)			fmt=elf  em=linux ;;
       arm-*-netbsdelf*)                 fmt=elf  em=nbsd ;;
       arm-*-*n*bsd*)			fmt=aout em=nbsd ;;
@@ -4255,6 +4262,7 @@ for this_target in $target $canon_targets ; do
       avr-*-*)				fmt=elf ;;
 
       cris-*-linux-gnu*)		fmt=multi bfd_gas=yes em=linux ;;
+      cris-*-linux-uclibc*)		fmt=multi bfd_gas=yes em=linux ;;
       cris-*-*)				fmt=multi bfd_gas=yes ;;
 
       d10v-*-*)				fmt=elf ;;
@@ -4312,7 +4320,9 @@ for this_target in $target $canon_targets ; do
       i386-*-linux*oldld)		fmt=aout em=linux ;;
       i386-*-linux*coff*)		fmt=coff em=linux ;;
       i386-*-linux-gnu*)		fmt=elf em=linux ;;
+      i386-*-linux-uclibc*)		fmt=elf em=linux ;;
       x86_64-*-linux-gnu*)		fmt=elf em=linux ;;
+      x86_64-*-linux-uclibc*)		fmt=elf em=linux ;;
       i386-*-lynxos*)			fmt=coff em=lynx ;;
       i386-*-sysv[45]*)			fmt=elf ;;
       i386-*-solaris*)			fmt=elf ;;
@@ -4372,6 +4382,7 @@ echo "$as_me: WARNING: GAS support for ${generic_target} is preliminary and a wo
       ia64-*-elf*)			fmt=elf ;;
       ia64-*-aix*)			fmt=elf em=ia64aix ;;
       ia64-*-linux-gnu*)		fmt=elf em=linux ;;
+      ia64-*-linux-uclibc*)		fmt=elf em=linux ;;
       ia64-*-hpux*)			fmt=elf em=hpux ;;
       ia64-*-netbsd*)			fmt=elf em=nbsd ;;
 
@@ -4399,6 +4410,7 @@ echo "$as_me: WARNING: GAS support for ${generic_target} is preliminary and a wo
       m68k-*-hpux*)			fmt=hp300 em=hp300 ;;
       m68k-*-linux*aout*)		fmt=aout em=linux ;;
       m68k-*-linux-gnu*)		fmt=elf em=linux ;;
+      m68k-*-linux-uclibc*)		fmt=elf em=linux ;;
       m68k-*-uclinux*)			fmt=elf ;;
       m68k-*-gnu*)			fmt=elf ;;
       m68k-*-lynxos*)			fmt=coff em=lynx ;;
@@ -4462,6 +4474,7 @@ _ACEOF
       ppc-*-beos*)			fmt=coff ;;
       ppc-*-*n*bsd* | ppc-*-elf*)	fmt=elf ;;
       ppc-*-eabi* | ppc-*-sysv4*)	fmt=elf ;;
+      ppc-*-linux-uclibc* | \
       ppc-*-linux-gnu*)			fmt=elf em=linux
 	    case "$endian" in
 		big)  ;;
@@ -4489,7 +4502,9 @@ echo "$as_me: error: Solaris must be configured little endian" >&2;}
       ppc-*-kaos*)			fmt=elf ;;
 
       s390x-*-linux-gnu*)		fmt=elf em=linux ;;
+      s390x-*-linux-uclibc*)		fmt=elf em=linux ;;
       s390-*-linux-gnu*)		fmt=elf em=linux ;;
+      s390-*-linux-uclibc*)		fmt=elf em=linux ;;
 
       sh*-*-linux*)			fmt=elf em=linux
 	    case ${cpu} in
@@ -4522,6 +4537,7 @@ echo "$as_me: error: Solaris must be configured little endian" >&2;}
       sparc-*-coff)			fmt=coff ;;
       sparc-*-linux*aout*)		fmt=aout em=linux ;;
       sparc-*-linux-gnu*)		fmt=elf em=linux ;;
+      sparc-*-linux-uclibc*)		fmt=elf em=linux ;;
       sparc-*-lynxos*)			fmt=coff em=lynx ;;
       sparc-fujitsu-none)		fmt=aout ;;
       sparc-*-elf)			fmt=elf ;;

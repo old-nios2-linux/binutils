@@ -178,7 +178,7 @@ if test "${target}" = "${host}"; then
   alpha*-*-freebsd* | alpha*-*-kfreebsd*-gnu)
 	COREFILE=''
 	;;
-  alpha*-*-linux-gnu*)
+  alpha*-*-linux-gnu* | alpha*-*-linux-uclibc*)
 	COREFILE=trad-core.lo
 	TRAD_HEADER='"hosts/alphalinux.h"'
 	;;
@@ -259,7 +259,7 @@ changequote([,])dnl
 	TRAD_HEADER='"hosts/i386mach3.h"'
 	;;
 changequote(,)dnl
-  i[3-7]86-*-linux-gnu*)
+  i[3-7]86-*-linux-gnu* | i[3-7]86-*-linux-uclibc*)
 changequote([,])dnl
 	COREFILE=trad-core.lo
 	TRAD_HEADER='"hosts/i386linux.h"'
@@ -300,7 +300,7 @@ changequote([,])dnl
 	COREFILE=trad-core.lo
 	TRAD_HEADER='"hosts/hp300bsd.h"'
 	;;
-  m68*-*-linux-gnu*)
+  m68*-*-linux-gnu* | m68*-*-linux-uclibc*)
 	COREFILE=trad-core.lo
 	TRAD_HEADER='"hosts/m68klinux.h"'
 	;;
@@ -385,7 +385,7 @@ changequote([,])dnl
 	COREFILE=trad-core.lo
 	TRAD_HEADER='"hosts/vaxult2.h"'
 	;;
-  vax-*-linux-gnu*)
+  vax-*-linux-gnu* | vax-*-linux-uclibc*)
 	COREFILE=trad-core.lo
 	TRAD_HEADER='"hosts/vaxlinux.h"'
 	;;
