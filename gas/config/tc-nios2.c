@@ -1350,7 +1350,6 @@ md_chars_to_number (char *buf, int n)
 void
 md_number_to_chars (char *buf, valueT val, int n)
 {
-  assert (n == 1 || n == 2 || n == 4);
   if (target_big_endian)
     {
       number_to_chars_bigendian (buf, val, n);
