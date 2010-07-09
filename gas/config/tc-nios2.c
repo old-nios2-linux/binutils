@@ -1851,8 +1851,7 @@ md_apply_fix3 (fixS * fixP, valueT * valP, segT seg ATTRIBUTE_UNUSED)
 	      fixup = ((fixup >> 16) & 0xFFFF) + ((fixup >> 15) & 0x01);
 	      break;
 	    default:
-	      fixup =
-		(fixup << (32 - howto->bitsize)) >> (32 - howto->bitsize);
+	      fixup = fixup & (howto->dst_mask >> howto->bitpos);
 	      break;
 	    }
 
